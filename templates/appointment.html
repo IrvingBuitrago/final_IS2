@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Appointment System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <div class="content">
+        <h1>Citas</h1>
+        <form method="post" action="/appointment/search">
+            <label for="name_last_name">Nombre y Apellido:</label>
+            <input type="text" name="name_last_name" required>
+            <input type="submit" value="Buscar">
+        </form>
+
+        <div class="modificar">
+            {% if name_last_name %}
+                <p><strong>Nombre y Apellido:</strong> {{ name_last_name }}</p>
+            {% endif %}
+            {% if appo_review %}
+                <div class="w3-card-4">
+                    <p><strong>ID del Paciente:</strong> {{ appo_review[1] }}</p>
+                    <p><strong>Fecha de Cita:</strong> {{ appo_review[2] }}</p>
+                    <p><strong>Hora:</strong> {{ appo_review[3] }}</p>
+                    <p><strong>Motivo:</strong> {{ appo_review[4] }}</p>
+                </div>
+                <h2>Editar Cita</h2>
+                <form method="post" action="/appointment/edit">
+                    <select name="column_update">
+                        <option value="dates">Fecha</option>
+                        <option value="times">Hora</option>
+                        <option value="reason">Motivo</option>
+                    </select>
+                    <input type="text" name="new_data" placeholder="Nuevo valor">
+                    <input type="hidden" name="appo_date" value="{{ appo_review[2] }}">
+                    <input type="hidden" name="time" value="{{ appo_review[3] }}">
+                    <input type="hidden" name="reason" value="{{ appo_review[4] }}">
+                    <input type="submit" value="Editar">
+                </form>
+                <form method="post" action="/appointment/delete">
+                    <input type="hidden" name="name_last_name" value="{{ name_last_name }}">
+                    <input type="hidden" name="dates" value="{{ appo_review[2] }}">
+                    <input type="hidden" name="times" value="{{ appo_review[3] }}">
+                    <input type="hidden" name="reason" value="{{ appo_review[4] }}">
+                    <input type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar esta cita?')">
+                </form>
+            {% else %}
+                <p>{{ error }}</p>
+            {% endif %}
+        </div>
+
+        <div class="añadir">
+            <button id="show-add-appointment">Agregar Cita</button>
+            <div id="add-appointment-form" class="hidden">
+                <h2>Agregar Cita</h2>
+                <form method="post" action="/appointment/add">
+                    <label for="name_last_name">Nombre y Apellido:</label>
+                    <input type="text" name="name_last_name">
+                    <label for="dates">Fecha:</label>
+                    <input type="date" name="dates">
+                    <label for="times">Hora:</label>
+                    <input type="time" name="times">
+                    <label for="reason">Motivo:</label>
+                    <input type="text" name="reason">
+                    <input type="submit" value="Agregar">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('show-add-appointment').addEventListener('click', function() {
+            var form = document.getElementById('add-appointment-form');
+            if (form.classList.contains('hidden')) {
+                form.classList.remove('hidden');
+                this.textContent = 'Ocultar Formulario';
+            } else {
+                form.classList.add('hidden');
+                this.textContent = 'Agregar Cita';
+            }
+        });
+    </script>
+</body>
+</html>
