@@ -44,6 +44,28 @@ def search_appointment():
     return render_template('appointment.html')
 
 
+# def add_appointment_logic(name_last_name, dates, times, reason):
+#     try:
+#         name, last_name = name_last_name.split()
+#         query = 'SELECT id FROM patient WHERE first_name = %s AND last_name = %s'
+#         patient_id = instancia.consultar(query, (name, last_name))
+#
+#         if patient_id:
+#             query = 'SELECT * FROM appointment WHERE dates = %s AND times = %s'
+#             exist_appo = instancia.consultar(query, (dates, times))
+#
+#             if exist_appo:
+#                 return 'Ya hay una cita registrada en ese horario', None
+#             else:
+#                 query = 'INSERT INTO appointment (id_patient, dates, times, reason) VALUES (%s, %s, %s, %s)'
+#                 instancia.insertar(query, (patient_id[0], dates, times, reason))
+#                 return 'Cita agregada con éxito', None
+#         else:
+#             return 'Paciente no encontrado', None
+#     except Exception as e:
+#         return f'La cita no se agregó correctamente: {str(e)}', None
+
+
 @app.route('/appointment/add', methods=["GET", "POST"])
 def add_appointment():
     if request.method == 'POST':
