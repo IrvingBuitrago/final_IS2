@@ -1,0 +1,28 @@
+CREATE DATABASE medical;
+USE medical;
+
+CREATE TABLE IF NOT EXISTS patient
+	(id INT PRIMARY KEY NOT NULL,
+	first_name VARCHAR(20) NOT NULL,
+	last_name VARCHAR(20) NOT NULL,
+	birthdate DATE NOT NULL,
+	address VARCHAR(70) NOT NULL);
+
+CREATE TABLE IF NOT EXISTS appointment
+                (ID INT AUTO_INCREMENT PRIMARY KEY,
+                id_patient INT,
+                dates DATE NOT NULL,
+                times TIME NOT NULL,
+                reason TEXT NOT NULL,
+                FOREIGN KEY (id_patient) REFERENCES patient(id));
+                
+INSERT INTO patient (id, first_name, last_name, birthdate, address) VALUES
+(1000001, 'Juan', 'Perez', '1985-04-12', 'Calle Falsa 123, Ciudad A'),
+(1000002, 'Maria', 'Gonzalez', '1990-07-23', 'Avenida Siempreviva 742, Ciudad B'),
+(1000003, 'Carlos', 'Ramirez', '1978-11-03', 'Boulevard de los Sueños Rotos 321, Ciudad C'),
+(1000004, 'Lucia', 'Martinez', '1983-01-19', 'Calle del Sol 456, Ciudad D'),
+(1000005, 'Ana', 'Lopez', '1995-06-30', 'Avenida Libertad 789, Ciudad E');
+
+select * from patient;
+SELECT * FROM appointment;
+delete from appointment where id = 35
